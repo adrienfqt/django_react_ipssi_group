@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .services.tripadvisor import (
-    fetch_places_carousel
+    fetch_places_minimal_carousel
 )
 import json
 
@@ -49,7 +49,7 @@ def get_carousel(request):
         category = PROFILE_CATEGORY_MAP[profile]
         language = COUNTRY_LANGUAGE_MAP[country]
 
-        results = fetch_places_carousel(
+        results = fetch_places_minimal_carousel(
             category=category,
             country=country,
             language=language

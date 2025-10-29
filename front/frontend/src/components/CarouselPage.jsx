@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import './css/Carousel.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
 
 function PrevArrow({ onClick }) {
   return (
@@ -22,38 +23,29 @@ function NextArrow({ onClick }) {
 }
 
 const CarouselPage = ({ userChoice }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  if (!userChoice) {
-    return <p>Veuillez retourner à la page d’accueil et sélectionner un profil.</p>;
-  }
+    const [data, setData] = useState([]);
 
-  const { profile, country } = userChoice;
+    const { profile, country } = userChoice || {};
 
-  // Données nazes, à remplacer plus tard par un appel API réel du back
-  const data = {
-    Local: [
-      { name: 'Restaurant A', img: 'https://picsum.photos/400/250?random=1' },
-      { name: 'Restaurant B', img: 'https://picsum.photos/400/250?random=2' },
-      { name: 'Restaurant C', img: 'https://picsum.photos/400/250?random=3' },
-      { name: 'Restaurant D', img: 'https://picsum.photos/400/250?random=10' },
-    ],
-    Touriste: [
-      { name: 'Attraction X', img: 'https://picsum.photos/400/250?random=4' },
-      { name: 'Attraction Y', img: 'https://picsum.photos/400/250?random=5' },
-      { name: 'Attraction Z', img: 'https://picsum.photos/400/250?random=6' },
-      { name: 'Attraction Z', img: 'https://picsum.photos/400/250?random=88' },
+    useEffect(() => {
+        if (!userChoice) return; // sécurité
 
-    ],
-    Professionnel: [
-      { name: 'Hôtel Alpha', img: 'https://picsum.photos/400/250?random=7' },
-      { name: 'Hôtel Beta', img: 'https://picsum.photos/400/250?random=8' },
-      { name: 'Hôtel Gamma', img: 'https://picsum.photos/400/250?random=9' },
-      { name: 'Attraction Z', img: 'https://picsum.photos/400/250?random=17' },
-    ],
-  };
+        const fetchCarouselData = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/carousel/", {
+                    params: { profile, country },
+                });
+                console.log("Réponse API :", response.data);
+                setData(response.data.data || response.data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données :", error);
+            }
+        };
 
-  const items = data[profile] || [];
+        fetchCarouselData();
+    }, [userChoice]);
 
   const settings = {
     dots: true,
@@ -76,37 +68,43 @@ const CarouselPage = ({ userChoice }) => {
     ],
   };
 
-  return (
-    <div className="carousel-page">
-      {/* Barre de navigation */}
-      <nav className="navbar">
-        <h1>Explore Europe</h1>
-        <button className="home-button" onClick={() => navigate('/')}>
-          Accueil
-        </button>
-      </nav>
+    if (!userChoice) return <p>Chargement du profil...</p>;
+    if (!data.length) return <p>Chargement des données...</p>;
 
-      <div className="carousel-container">
-        <h2>
-          {profile === 'Local'
-            ? `Restaurants en ${country}`
-            : profile === 'Touriste'
-            ? `Attractions en ${country}`
-            : `Hôtels en ${country}`}
-        </h2>
+    return (
+        <div className="carousel-page">
+            {/* Barre de navigation */}
+            <nav className="navbar">
+                <h1>Explore Europe</h1>
+                <button className="home-button" onClick={() => navigate('/')}>
+                    Accueil
+                </button>
+            </nav>
 
-        <Slider {...settings}>
-          {items.map((item, index) => (
-            <div key={index} className="carousel-card">
-              <img src={item.img} alt={item.name} />
-              <h3>{item.name}</h3>
-              <p>Description de {item.name}</p>
+            <div className="carousel-container">
+                <h2>
+                    {profile === 'Local'
+                        ? `Restaurants en ${country}`
+                        : profile === 'Touriste'
+                            ? `Attractions en ${country}`
+                            : `Hôtels en ${country}`}
+                </h2>
+
+                <Slider {...settings}>
+                    {data.map((item, index) => (
+                        <div key={index} className="carousel-card">
+                            <img
+                                src={`https://picsum.photos/400/250?random=${index + 1}`}
+                                alt={item.name}
+                            />
+                            <h3>{item.name}</h3>
+                            <p>{item.address_obj?.address_string || 'Adresse inconnue'}</p>
+                        </div>
+                    ))}
+                </Slider>
             </div>
-          ))}
-        </Slider>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default CarouselPage;
