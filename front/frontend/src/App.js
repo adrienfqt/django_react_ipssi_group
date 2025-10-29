@@ -1,15 +1,19 @@
-import React from 'react';
-import LandingPage from './components/landingPage/LandingPage';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
+import CarouselPage from './components/CarouselPage';
 
 function App() {
-    const handleSubmit = (data) => {
-        console.log('Choix utilisateur :', data);
-        // Ici tu peux rediriger vers une autre page ou stocker les données
-    };
+  const [userChoice, setUserChoice] = useState(null);
 
-    return (
-        <LandingPage onSubmit={handleSubmit} />
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage onSubmit={(choice) => setUserChoice(choice)} />} />
+        <Route path="/carousel" element={<CarouselPage userChoice={userChoice} />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
