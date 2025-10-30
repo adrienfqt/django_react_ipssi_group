@@ -1,109 +1,144 @@
-/* DetailsPage.css */
-
-/* General layout */
 .details-page {
-  font-family: 'Arial', sans-serif;
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background: #f9fafc;
+    min-height: 100vh;
 }
 
-/* Navbar styles */
+/* Réutilisation du style navbar du carousel */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #007bff;
-  color: #ffffff;
-  padding: 15px 20px;
-  border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    color: white;
+    padding: 15px 40px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar h1 {
-  margin: 0;
-  font-size: 1.8rem;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-.navbar .home-button {
-  background-color: #ffffff;
-  color: #007bff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
-.navbar .home-button:hover {
-  background-color: #e6e6e6;
+.nav-button {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Title and image */
-.details-page h1 {
-  font-size: 2.5rem;
-  margin: 20px 0;
-  color: #333333;
-  text-align: center;
+.nav-button:hover {
+    background-color: white;
+    color: #007bff;
 }
 
-.details-page img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin: 20px 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Image principale */
+.details-hero img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0;
 }
 
-/* Description */
-.details-page p {
-  font-size: 1.2rem;
-  color: #555555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  text-align: justify;
+/* Conteneur principal */
+.details-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Details list */
-.details-page ul {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
+/* Sections */
+.details-container h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: #007bff;
+    text-align: center;
 }
 
-.details-page ul li {
-  font-size: 1.1rem;
-  color: #444444;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-left: 4px solid #007bff;
-  border-radius: 5px;
+.details-description {
+    text-align: justify;
+    margin-bottom: 25px;
+    line-height: 1.6;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .details-page {
-    padding: 15px;
-  }
+/* Info */
+.details-info p {
+    margin: 5px 0;
+    font-size: 15px;
+}
 
-  .navbar h1 {
-    font-size: 1.5rem;
-  }
+/* Rating */
+.details-rating {
+    margin: 20px 0;
+    text-align: center;
+}
 
-  .details-page h1 {
-    font-size: 2rem;
-  }
+.details-rating img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+}
 
-  .details-page p {
-    font-size: 1rem;
-  }
+/* Horaires */
+.details-hours ul {
+    list-style: none;
+    padding: 0;
+}
 
-  .details-page ul li {
-    font-size: 1rem;
-  }
+.details-hours li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Catégories, awards, quartiers */
+.details-categories, .details-awards, .details-neighborhood, .details-triptypes {
+    margin-top: 25px;
+}
+
+.details-awards .award-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f3f7ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.details-awards img {
+    height: 30px;
+}
+
+.details-neighborhood ul, .details-triptypes ul {
+    list-style: none;
+    padding: 0;
+}
+
+.details-neighborhood li, .details-triptypes li {
+    background: #f9f9f9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+/* Loader */
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: #007bff;
 }

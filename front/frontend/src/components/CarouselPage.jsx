@@ -4,7 +4,9 @@ import Slider from "react-slick";
 import './css/Carousel.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useUser } from "../context/UserContext";
 import axios from "axios";
+import Navbar from "./Navbar";
 
 function PrevArrow({ onClick }) {
     return <button className="arrow prev" onClick={onClick}>&#10094;</button>;
@@ -14,9 +16,10 @@ function NextArrow({ onClick }) {
     return <button className="arrow next" onClick={onClick}>&#10095;</button>;
 }
 
-const CarouselPage = ({ userChoice }) => {
+const CarouselPage = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
+    const { userChoice } = useUser();
 
     const { profile, country } = userChoice || {};
 
@@ -34,17 +37,17 @@ const CarouselPage = ({ userChoice }) => {
                 const enhancedData = await Promise.all(
                     baseData.map(async (item) => {
                         try {
-                            const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
+                            /*const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
                                 params: { location: item.location_id },
                             });
 
-                            const thumbnailUrl =
+                            const originalUrl =
                                 photoRes.data?.data?.[0]?.images?.original?.url ||
                                 `https://picsum.photos/400/250?random=${Math.random()}`;
-
+                            **/
                             return {
                                 ...item,
-                                image_url: thumbnailUrl,
+                                image_url: null,
                             };
                         } catch (err) {
                             console.warn("Erreur image pour", item.name, err);
@@ -90,20 +93,9 @@ const CarouselPage = ({ userChoice }) => {
 
     return (
         <div className="carousel-page">
-            {/* 🌍 NAVBAR */}
-            <nav className="navbar">
-                <h1>Explore Europe</h1>
-                <div className="nav-buttons">
-                    <button className="nav-button" onClick={() => navigate('/')}>
-                        Accueil
-                    </button>
-                    <button className="nav-button">Recherche</button>
-                    <button className="nav-button">Découverte</button>
-                    <button className="nav-button">Ma Compilation</button>
-                </div>
-            </nav>
 
-            {/* 🎠 CAROUSEL */}
+            <Navbar />
+
             <div className="carousel-container">
                 <h2>
                     {profile === 'Local'
@@ -115,10 +107,13 @@ const CarouselPage = ({ userChoice }) => {
 
                 <Slider {...settings}>
                     {data.map((item, index) => (
-                        /*gestion du comportement du clic sur un item du carousel */
-                        <div key={index} className="carousel-card" onClick={() => navigate(`/details/${item.id}`, { state: { item } })} style={{ cursor: 'pointer' }}>
+                        <div
+                            key={index}
+                            className="carousel-card"
+                            onClick={() => navigate(`/details/${item.location_id}`)}
+                            style={{ cursor: 'pointer' }}>
                             <img
-                                src={item.image_url}
+                                src={item.image_url ? item.image_url : `https://picsum.photos/400/250?random=${Math.random()}`}
                                 alt={item.name}
                                 className="carousel-image"
                             />
