@@ -88,7 +88,8 @@ const CarouselPage = ({ userChoice }) => {
 
                 <Slider {...settings}>
                     {data.map((item, index) => (
-                        <div key={index} className="carousel-card">
+                        /*gestion du comportement du clic sur un item du carousel */
+                        <div key={index} className="carousel-card" onClick={() => navigate(`/details/${item.id}`, { state: { item } })} style={{ cursor: 'pointer' }}>
                             <img
                                 src={`https://picsum.photos/400/250?random=${index + 1}`}
                                 alt={item.name}
