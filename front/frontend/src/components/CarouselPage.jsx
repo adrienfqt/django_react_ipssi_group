@@ -34,17 +34,17 @@ const CarouselPage = ({ userChoice }) => {
                 const enhancedData = await Promise.all(
                     baseData.map(async (item) => {
                         try {
-                            const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
+                            /*const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
                                 params: { location: item.location_id },
                             });
 
-                            const thumbnailUrl =
+                            const originalUrl =
                                 photoRes.data?.data?.[0]?.images?.original?.url ||
                                 `https://picsum.photos/400/250?random=${Math.random()}`;
-
+                            **/
                             return {
                                 ...item,
-                                image_url: thumbnailUrl,
+                                image_url: null,
                             };
                         } catch (err) {
                             console.warn("Erreur image pour", item.name, err);
@@ -115,10 +115,13 @@ const CarouselPage = ({ userChoice }) => {
 
                 <Slider {...settings}>
                     {data.map((item, index) => (
-                        /*gestion du comportement du clic sur un item du carousel */
-                        <div key={index} className="carousel-card" onClick={() => navigate(`/details/${item.id}`, { state: { item } })} style={{ cursor: 'pointer' }}>
+                        <div
+                            key={index}
+                            className="carousel-card"
+                            onClick={() => navigate(`/details/${item.location_id}`)}
+                            style={{ cursor: 'pointer' }}>
                             <img
-                                src={item.image_url}
+                                src={item.image_url ? item.image_url : `https://picsum.photos/400/250?random=${Math.random()}`}
                                 alt={item.name}
                                 className="carousel-image"
                             />

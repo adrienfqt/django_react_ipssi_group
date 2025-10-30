@@ -19,7 +19,7 @@ def fetch_places_minimal_carousel(category, country, language):
     return response.json()
 
 def fetch_places_details(location_id):
-    url = f"{BASE_URL}{location_id}/details"
+    url = f"{BASE_URL}{location_id}/details?key={API_KEY}"
     print(url)
     headers = {"X-TripAdvisor-API-Key": API_KEY}
     params = {}
