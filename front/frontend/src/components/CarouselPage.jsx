@@ -28,7 +28,35 @@ const CarouselPage = ({ userChoice }) => {
                 const response = await axios.get("http://127.0.0.1:8000/carousel/", {
                     params: { profile, country },
                 });
-                setData(response.data.data || response.data);
+
+                const baseData = response.data.data || response.data;
+
+                const enhancedData = await Promise.all(
+                    baseData.map(async (item) => {
+                        try {
+                            const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
+                                params: { location: item.location_id },
+                            });
+
+                            const thumbnailUrl =
+                                photoRes.data?.data?.[0]?.images?.original?.url ||
+                                `https://picsum.photos/400/250?random=${Math.random()}`;
+
+                            return {
+                                ...item,
+                                image_url: thumbnailUrl,
+                            };
+                        } catch (err) {
+                            console.warn("Erreur image pour", item.name, err);
+                            return {
+                                ...item,
+                                image_url: `https://picsum.photos/400/250?random=${Math.random()}`,
+                            };
+                        }
+                    })
+                );
+
+                setData(enhancedData);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
@@ -40,19 +68,16 @@ const CarouselPage = ({ userChoice }) => {
     const settings = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 700,
+        cssEase: "ease-in-out",
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 3500,
         pauseOnHover: true,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         responsive: [
-            {
-                breakpoint: 1024,
-                settings: { slidesToShow: 2 },
-            },
             {
                 breakpoint: 768,
                 settings: { slidesToShow: 1 },
@@ -69,7 +94,9 @@ const CarouselPage = ({ userChoice }) => {
             <nav className="navbar">
                 <h1>Explore Europe</h1>
                 <div className="nav-buttons">
-                    <button className="nav-button" onClick={() => navigate('/')}>Accueil</button>
+                    <button className="nav-button" onClick={() => navigate('/')}>
+                        Accueil
+                    </button>
                     <button className="nav-button">Recherche</button>
                     <button className="nav-button">Découverte</button>
                     <button className="nav-button">Ma Compilation</button>
@@ -90,8 +117,9 @@ const CarouselPage = ({ userChoice }) => {
                     {data.map((item, index) => (
                         <div key={index} className="carousel-card">
                             <img
-                                src={`https://picsum.photos/400/250?random=${index + 1}`}
+                                src={item.image_url}
                                 alt={item.name}
+                                className="carousel-image"
                             />
                             <h3>{item.name}</h3>
                             <p>{item.address_obj?.address_string || 'Adresse inconnue'}</p>
