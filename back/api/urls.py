@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('carousel/', views.get_carousel, name='get_carousel'),
     path('photo/', views.get_location_photo, name='get_photo'),
-    path('details/', views.get_location_details, name='get_details')
+    path('details/', views.get_location_details, name='get_details'),
+    path('nearby_capitale/', views.get_location_nearby_country, name='get_location_nearby_country')
 ]

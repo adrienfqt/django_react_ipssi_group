@@ -39,3 +39,14 @@ def fetch_places_photos(location_id):
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
+
+def fetch_places_nearby(lat,long):
+    url = f"{BASE_URL}nearby_search?latLong={lat},{long}&key={API_KEY}"
+    print(url)
+    headers = {"X-TripAdvisor-API-Key": API_KEY}
+    params = {}
+
+
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()

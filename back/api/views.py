@@ -3,7 +3,8 @@ from django.views.decorators.http import require_http_methods
 from .services.tripadvisor import (
     fetch_places_minimal_carousel,
     fetch_places_photos,
-    fetch_places_details
+    fetch_places_details,
+    fetch_places_nearby
 )
 import json
 
@@ -137,6 +138,54 @@ def get_location_details(request):
 
     except Exception as e:
         print(f" Erreur serveur: {str(e)}")
+        return JsonResponse({
+            'error': f'Erreur serveur: {str(e)}'
+        }, status=500)
+
+def get_location_nearby_country(request):
+    """
+    Endpoint pour obtenir les lieux près d'une capitale
+    GET /api/nearby_capitale/?country=France
+    """
+    try:
+        country = request.GET.get('country')
+
+        if not country:
+            return JsonResponse({
+                'error': 'Le paramètre country est requis'
+            }, status=400)
+
+        COUNTRY_COORDINATES = {
+            'France': {'lat': '48.8575', 'long': '2.3514'},
+            'Espagne': {'lat': '40.4167', 'long': '-3.7033'},
+            'Portugal': {'lat': '38.7223', 'long': '-9.1393'}
+        }
+
+        if country not in COUNTRY_COORDINATES:
+            return JsonResponse({
+                'error': f'Pays invalide. Choisissez parmi: {", ".join(COUNTRY_COORDINATES.keys())}'
+            }, status=400)
+
+        coords = COUNTRY_COORDINATES[country]
+        lat = coords['lat']
+        long = coords['long']
+
+        results = fetch_places_nearby(
+            lat=lat,
+            long=long
+        )
+
+        if results is None:
+            return JsonResponse({
+                'error': 'Erreur lors de la récupération des données de TripAdvisor'
+            }, status=500)
+
+        print(f"Lieux à proximité trouvés: {len(results.get('data', []))}")
+
+        return JsonResponse(results, safe=False)
+
+    except Exception as e:
+        print(f"Erreur serveur: {str(e)}")
         return JsonResponse({
             'error': f'Erreur serveur: {str(e)}'
         }, status=500)
