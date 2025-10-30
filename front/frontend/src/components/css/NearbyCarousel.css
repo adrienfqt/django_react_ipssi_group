@@ -1,0 +1,251 @@
+.nearby-carousel {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 2px solid #f0f0f0;
+}
+
+.nearby-header {
+    margin-bottom: 20px;
+}
+
+.nearby-carousel h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #007bff;
+}
+
+.nearby-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* Loading */
+.loading-nearby {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    gap: 15px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-nearby p {
+    color: #666;
+    font-style: italic;
+}
+
+/* Carousel wrapper */
+.carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nearby-carousel-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #f0f0f0;
+}
+
+.nearby-carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.nearby-carousel-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.nearby-carousel-container::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+}
+
+.nearby-carousel-container::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+/* Card */
+.nearby-card {
+    min-width: 280px;
+    max-width: 280px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+}
+
+.nearby-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.nearby-card-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: #f0f0f0;
+    position: relative;
+}
+
+.nearby-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.nearby-card:hover .nearby-card-image img {
+    transform: scale(1.05);
+}
+
+.distance-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 123, 255, 0.9);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+}
+
+/* Card content */
+.nearby-card-content {
+    padding: 15px;
+}
+
+.nearby-card-content h4 {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    color: #333;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.location {
+    font-size: 14px;
+    color: #007bff;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.address {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bearing {
+    font-size: 12px;
+    color: #999;
+    margin: 8px 0 0 0;
+    font-style: italic;
+    text-transform: capitalize;
+}
+
+/* Navigation buttons */
+.carousel-nav-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.carousel-nav-btn:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+}
+
+.carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* No results */
+.no-results {
+    color: #666;
+    font-style: italic;
+    padding: 30px 0;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-wrapper {
+        gap: 8px;
+    }
+
+    .nearby-card {
+        min-width: 240px;
+        max-width: 240px;
+    }
+
+    .nearby-card-image {
+        height: 150px;
+    }
+
+    .carousel-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .nearby-carousel h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-nav-btn.left,
+    .carousel-nav-btn.right {
+        display: none;
+    }
+
+    .nearby-carousel-container {
+        padding: 10px 5px 20px 5px;
+    }
+}
