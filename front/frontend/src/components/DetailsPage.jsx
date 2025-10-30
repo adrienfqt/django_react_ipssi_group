@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./css/DetailsPage.css";
+import Navbar from "./Navbar";
 
 const DetailsPage = () => {
     const { id } = useParams();
@@ -39,15 +40,7 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page">
-            <nav className="navbar">
-                <h1>{details.name}</h1>
-                <div className="nav-buttons">
-                    <button className="nav-button" onClick={() => navigate("/")}>Accueil</button>
-                    <button className="nav-button" onClick={() => navigate("/search")}>Recherche</button>
-                    <button className="nav-button" onClick={() => navigate("/discovery")}>Découverte</button>
-                    <button className="nav-button" onClick={() => navigate("/favorites")}>Ma Compilation</button>
-                </div>
-            </nav>
+            <Navbar />
 
             <div className="details-hero">
                 <img src={photo} alt={details.name} className="details-image" />

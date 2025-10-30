@@ -4,7 +4,9 @@ import Slider from "react-slick";
 import './css/Carousel.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useUser } from "../context/UserContext";
 import axios from "axios";
+import Navbar from "./Navbar";
 
 function PrevArrow({ onClick }) {
     return <button className="arrow prev" onClick={onClick}>&#10094;</button>;
@@ -14,9 +16,10 @@ function NextArrow({ onClick }) {
     return <button className="arrow next" onClick={onClick}>&#10095;</button>;
 }
 
-const CarouselPage = ({ userChoice }) => {
+const CarouselPage = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
+    const { userChoice } = useUser();
 
     const { profile, country } = userChoice || {};
 
@@ -90,20 +93,9 @@ const CarouselPage = ({ userChoice }) => {
 
     return (
         <div className="carousel-page">
-            {/* 🌍 NAVBAR */}
-            <nav className="navbar">
-                <h1>Explore Europe</h1>
-                <div className="nav-buttons">
-                    <button className="nav-button" onClick={() => navigate('/')}>
-                        Accueil
-                    </button>
-                    <button className="nav-button">Recherche</button>
-                    <button className="nav-button">Découverte</button>
-                    <button className="nav-button">Ma Compilation</button>
-                </div>
-            </nav>
 
-            {/* 🎠 CAROUSEL */}
+            <Navbar />
+
             <div className="carousel-container">
                 <h2>
                     {profile === 'Local'
