@@ -21,4 +21,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('carousel/', views.get_carousel, name='get_carousel'),
+    path('photo/', views.get_location_photo, name='get_photo'),
 ]

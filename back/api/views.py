@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .services.tripadvisor import (
-    fetch_places_minimal_carousel
+    fetch_places_minimal_carousel,
+    fetch_places_photos,
+    fetch_places_details
 )
 import json
 
@@ -53,6 +55,42 @@ def get_carousel(request):
             category=category,
             country=country,
             language=language
+        )
+
+        if results is None:
+            return JsonResponse({
+                'error': 'Erreur lors de la récupération des données de TripAdvisor'
+            }, status=500)
+
+        print(results)
+
+        return JsonResponse(results, safe=False)
+
+    except Exception as e:
+        print(f" Erreur serveur: {str(e)}")
+        return (JsonResponse({
+            'error': f'Erreur serveur: {str(e)}'
+        }, status=500)
+
+
+@require_http_methods(["GET"]))
+def get_location_photo(request):
+    """
+    Endpoint pour obtenir les photos d'un lieu
+    GET /api/location/?profile=Local&country=France
+    """
+    try:
+        # Récupération des paramètres GET
+        location_id = request.GET.get('location')
+
+        # Validation
+        if not location_id :
+            return JsonResponse({
+                'error': 'Le paramètre location_id est requis'
+            }, status=400)
+
+        results = fetch_places_photos(
+            location_id=location_id
         )
 
         if results is None:

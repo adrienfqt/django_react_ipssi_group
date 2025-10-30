@@ -28,3 +28,14 @@ def fetch_places_details(location_id):
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
+
+def fetch_places_photos(location_id):
+    url = f"{BASE_URL}{location_id}/photos?key={API_KEY}&limit=1&source=Expert"
+    print(url)
+    headers = {"X-TripAdvisor-API-Key": API_KEY}
+    params = {}
+
+
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
