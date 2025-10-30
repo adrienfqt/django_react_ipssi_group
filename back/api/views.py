@@ -70,14 +70,12 @@ def get_carousel(request):
         print(f" Erreur serveur: {str(e)}")
         return (JsonResponse({
             'error': f'Erreur serveur: {str(e)}'
-        }, status=500)
+        }, status=500))
 
-
-@require_http_methods(["GET"]))
 def get_location_photo(request):
     """
     Endpoint pour obtenir les photos d'un lieu
-    GET /api/location/?profile=Local&country=France
+    GET /api/photo/?location=188709
     """
     try:
         # Récupération des paramètres GET
@@ -90,6 +88,41 @@ def get_location_photo(request):
             }, status=400)
 
         results = fetch_places_photos(
+            location_id=location_id
+        )
+
+        if results is None:
+            return JsonResponse({
+                'error': 'Erreur lors de la récupération des données de TripAdvisor'
+            }, status=500)
+
+        print(results)
+
+        return JsonResponse(results, safe=False)
+
+    except Exception as e:
+        print(f" Erreur serveur: {str(e)}")
+        return JsonResponse({
+            'error': f'Erreur serveur: {str(e)}'
+        }, status=500)
+
+
+def get_location_details(request):
+    """
+    Endpoint pour obtenir les détails d'un lieu
+    GET /api/details/?location=188709
+    """
+    try:
+        # Récupération des paramètres GET
+        location_id = request.GET.get('location')
+
+        # Validation
+        if not location_id:
+            return JsonResponse({
+                'error': 'Le paramètre location_id est requis'
+            }, status=400)
+
+        results = fetch_places_details(
             location_id=location_id
         )
 
