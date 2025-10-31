@@ -10,12 +10,12 @@ const LandingPage = ({onSubmit}) => {
     const [selectedProfile, setSelectedProfile] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');
     const navigate = useNavigate();
-    const {setUserChoice} = useUser();
+    const {setUser} = useUser();
 
     const handleSubmit = () => {
         if (selectedProfile && selectedCountry) {
             //onSubmit({ profile: selectedProfile, country: selectedCountry });
-            setUserChoice({profile: selectedProfile, country: selectedCountry});
+            setUser({profile: selectedProfile, country: selectedCountry});
             navigate('/carousel');
         }
     };

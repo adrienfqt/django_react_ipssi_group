@@ -5,6 +5,7 @@ import CarouselPage from './components/CarouselPage';
 import DetailsPage from './components/DetailsPage';
 import SearchPage from './components/Search';
 import {UserProvider} from "./context/UserContext";
+import PlaylistPage from "./components/PlaylistPage";
 
 function App() {
   const [userChoice, setUserChoice] = useState(null);
@@ -17,6 +18,7 @@ function App() {
             <Route path="/carousel" element={<CarouselPage userChoice={userChoice} />} />
             <Route path="/details/:id" element={<DetailsPage />} />
             <Route path="/search" element={<SearchPage userChoice={userChoice} />} />
+              <Route path="/playlist" element={<PlaylistPage />} />
           </Routes>
         </Router>
       </UserProvider>
