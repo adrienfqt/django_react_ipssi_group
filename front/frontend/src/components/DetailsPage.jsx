@@ -4,10 +4,12 @@ import axios from "axios";
 import "./css/DetailsPage.css";
 import Navbar from "./Navbar";
 import NearbyCarousel from "./NearbyCarousel";
+import { useUser } from "../context/UserContext";
 
 const DetailsPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { playlist, addToList, removeFromList } = useUser();
 
     const [details, setDetails] = useState(null);
     const [photos, setPhotos] = useState([]);
@@ -44,6 +46,22 @@ const DetailsPage = () => {
     const getPriceLevel = (priceLevel) => {
         if (!priceLevel) return "Non renseigné";
         return "€".repeat(parseInt(priceLevel));
+    };
+
+    const isInList = playlist.some((p) => p.location_id === id);
+
+    const handleToggleList = () => {
+        if (isInList) {
+            removeFromList(id);
+        } else {
+            addToList({
+                location_id: details.location_id,
+                name: details.name,
+                image: photos[0],
+                address: details.address_obj?.address_string,
+                rating: details.rating,
+            });
+        }
     };
 
     return (
@@ -214,6 +232,11 @@ const DetailsPage = () => {
                         </ul>
                     </div>
                 )}
+                <div className="add-to-list-container">
+                    <button className={`add-to-list-button ${isInList ? "in-list" : ""}`} onClick={handleToggleList}>
+                        {isInList ? "Retirer de ma liste" : "Ajouter à ma liste"}
+                    </button>
+                </div>
                 <NearbyCarousel />
             </div>
         </div>

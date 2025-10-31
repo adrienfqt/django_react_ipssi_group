@@ -37,17 +37,17 @@ const CarouselPage = () => {
                 const enhancedData = await Promise.all(
                     baseData.map(async (item) => {
                         try {
-                            /*const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
+                            const photoRes = await axios.get("http://127.0.0.1:8000/photo/", {
                                 params: { location: item.location_id },
                             });
 
                             const originalUrl =
                                 photoRes.data?.data?.[0]?.images?.original?.url ||
                                 `https://picsum.photos/400/250?random=${Math.random()}`;
-                            **/
+
                             return {
                                 ...item,
-                                image_url: null,
+                                image_url: originalUrl,
                             };
                         } catch (err) {
                             console.warn("Erreur image pour", item.name, err);

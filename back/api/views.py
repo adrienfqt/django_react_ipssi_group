@@ -4,7 +4,8 @@ from .services.tripadvisor import (
     fetch_places_minimal_carousel,
     fetch_places_photos,
     fetch_places_details,
-    fetch_places_nearby
+    fetch_places_nearby,
+    fetch_places_search_filter
 )
 import json
 
@@ -189,3 +190,29 @@ def get_location_nearby_country(request):
         return JsonResponse({
             'error': f'Erreur serveur: {str(e)}'
         }, status=500)
+
+def get_places_search_filter(request):
+    """
+    Endpoint pour filtrer les lieux en fonction de la recherche utilisateur
+    """
+    try:
+        searchQuery = request.GET.get('searchQuery', '').strip()
+        city = request.GET.get('city', '').strip()
+        category = request.GET.get('category', '').strip()
+
+        if not searchQuery:
+            return JsonResponse({'error': 'Le champ searchQuery est requis.'}, status=400)
+
+        results = fetch_places_search_filter(searchQuery, city, category)
+
+        if results is None:
+            return JsonResponse({
+                'error': 'Erreur lors de la récupération des données de TripAdvisor'
+            }, status=500)
+
+        print(f"Lieux trouvés: {len(results.get('data', []))}")
+        return JsonResponse(results, safe=False)
+
+    except Exception as e:
+        print(f"Erreur serveur: {str(e)}")
+        return JsonResponse({'error': f'Erreur serveur: {str(e)}'}, status=500)
