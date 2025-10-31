@@ -58,10 +58,11 @@ Ce projet est une application web inspirée de TripAdvisor, permettant aux utili
 
 ## 📡 Endpoints Back-end
 
-Endpoints API
-Endpoint,Méthode,Paramètres obligatoires,Description
-/api/carousel/,GET,profile, country,Récupère un carousel de lieux selon le profil et le pays.
-/api/photo/,GET,location (ID du lieu),Récupère les photos d'un lieu spécifique.
-/api/details/,GET,location (ID du lieu),Récupère les détails complets d'un lieu.
-/api/nearby_capitale/,GET,country,Récupère les lieux à proximité de la capitale du pays sélectionné.
-/api/search/filter/,GET,searchQuery,Filtre les lieux selon une recherche utilisateur (ville, catégorie, etc.).
+| Endpoint                     | Méthode | Paramètres obligatoires       | Description                                                                 |
+|------------------------------|---------|-------------------------------|-----------------------------------------------------------------------------|
+| `/api/carousel/`             | GET     | `profile`, `country`          | Récupère une liste de 10 destinations filtre par profile et pays                 |
+| `/api/photo/`                | GET     | `location` (ID du lieu)       | Récupère les photos d'un lieu spécifique.                                   |
+| `/api/details/`              | GET     | `location` (ID du lieu)       | Récupère les détails complets d'un lieu.                                   |
+| `/api/nearby_capitale/`      | GET     | `country`                     | Récupère les lieux à proximité de la capitale du pays sélectionné.         |
+| `/api/search/filter/`        | GET     | `searchQuery`                 | Filtre les lieux selon une recherche utilisateur (ville, catégorie, etc.). |
+
