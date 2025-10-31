@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import CarouselPage from './components/CarouselPage';
 import DetailsPage from './components/DetailsPage';
-import SearchPage from './components/Search';
+import SearchPage from './components/SearchPage';
 import {UserProvider} from "./context/UserContext";
 import PlaylistPage from "./components/PlaylistPage";
 

@@ -50,3 +50,30 @@ def fetch_places_nearby(lat,long):
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
+
+
+def fetch_places_search_filter(searchQuery, city=None, category=None):
+    """
+    Recherche des lieux via l'API TripAdvisor selon les filtres donnés.
+    Tous les paramètres sont optionnels sauf searchQuery.
+    """
+    searchQuery = (searchQuery or "").strip()
+    city = (city or "").strip()
+    category = (category or "").strip()
+
+    url = f"{BASE_URL}search?key={API_KEY}&searchQuery={searchQuery}"
+
+    if city:
+        url += f"%{city}"
+
+    if category:
+        url += f"&category={category}"
+
+    print(f"🔍 URL TripAdvisor générée : {url}")
+
+    headers = {"X-TripAdvisor-API-Key": API_KEY}
+    params = {}
+
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
