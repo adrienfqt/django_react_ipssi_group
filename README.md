@@ -12,6 +12,10 @@ Ce projet est une application web inspirée de TripAdvisor, permettant aux utili
 
 ---
 
+## Lien présentation vidéo 
+
+https://www.youtube.com/watch?v=lO3NDd91HHY
+
 ## 🔧 Architecture Technique
 
 ### Back-end (Django)
