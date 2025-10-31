@@ -1,7 +1,7 @@
 # 🌍 Application de Découverte Touristique - TripAdvisor API
 
 ## 👥 Auteurs
-- **Adrien Fouquet** (@afouquet_ApteanCP)
+- **Adrien Fouquet**
 - **Satya Minguez**
 
 **Contexte** : Projet réalisé dans le cadre d'un TP pour l'école IPSSI
