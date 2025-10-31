@@ -41,13 +41,13 @@ const CarouselPage = () => {
                                 params: { location: item.location_id },
                             });
 
-                            const originalUrl =
+                            const originallUrl =
                                 photoRes.data?.data?.[0]?.images?.original?.url ||
                                 `https://picsum.photos/400/250?random=${Math.random()}`;
 
                             return {
                                 ...item,
-                                image_url: originalUrl,
+                                image_url: originallUrl,
                             };
                         } catch (err) {
                             console.warn("Erreur image pour", item.name, err);
